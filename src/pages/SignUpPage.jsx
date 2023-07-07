@@ -24,13 +24,9 @@ export default function SignUpPage() {
       axios.post(`${import.meta.env.VITE_API_URL}/sign-up`, {name, email, password})
         .then(()=> navigate("/"))
         .catch((error)=>{
-            if(error.response.status === 409){
-              alert("Este email já é cadastrado")
-            }else if(error.response.status === 422){
-              alert("Dados inválidos, por favor tente novamente")
-            }else{
-              alert("Erro ao realizar o cadastro")
-            }
+          if(error.response.status === 409) return alert("Este email já é cadastrado")
+          if(error.response.status === 422) return alert("Dados inválidos, por favor tente novamente")
+          alert("Erro ao realizar o cadastro")
         })
     }
   }
