@@ -11,7 +11,7 @@ export default function HomePage() {
 
   const navigate = useNavigate()
 
-  const { token } = useContext(Context)
+  const { token, setToken } = useContext(Context)
   const config = {
     headers: {
       Authorization: `Bearer ${token}`
@@ -44,11 +44,17 @@ export default function HomePage() {
     }
   })
 
+  function logout(){
+    setToken(null)
+    localStorage.clear()
+    navigate("/")
+  }
+
   return (
     <HomeContainer>
       <Header>
         <h1>Olá, {username}</h1>
-        <BiExit />
+        <BiExit onClick={logout}/>
       </Header>
 
       <TransactionsContainer>
