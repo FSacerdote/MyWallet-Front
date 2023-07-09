@@ -1,37 +1,57 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
+import { useContext, useEffect, useState } from "react"
+import axios from "axios"
+import { Context } from "../components/Context"
+import ListItemContainer from "../components/ListItemContainer"
 
 export default function HomePage() {
+
+  const {token} = useContext(Context)
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+
+  const [username, setUserName] = useState("")
+  const [transactions, setTransactions] = useState([])
+  let saldo = 0
+
+  useEffect(()=>{
+    axios.get(`${import.meta.env.VITE_API_URL}/transactions`, config)
+      .then((resposta)=>{
+        setUserName(resposta.data.user.name)
+        setTransactions(resposta.data.transactions.reverse())
+      })
+      .catch((erro)=>{
+        console.log(erro)
+      })
+  }, [])
+
+  transactions.forEach((transaction)=>{
+    if(transaction.type === "entrada"){
+      saldo += Number(transaction.value)
+    }else{
+      saldo -= Number(transaction.value)
+    }
+  })
+
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, Fulano</h1>
+        <h1>Olá, {username}</h1>
         <BiExit />
       </Header>
 
       <TransactionsContainer>
         <ul>
-          <ListItemContainer>
-            <div>
-              <span>30/11</span>
-              <strong>Almoço mãe</strong>
-            </div>
-            <Value color={"negativo"}>120,00</Value>
-          </ListItemContainer>
-
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong>Salário</strong>
-            </div>
-            <Value color={"positivo"}>3000,00</Value>
-          </ListItemContainer>
+          {transactions.map((transaction)=><ListItemContainer key={transaction._id} day={transaction.date} description={transaction.description} value={transaction.value} type={transaction.type}/>)}
         </ul>
-
         <article>
           <strong>Saldo</strong>
-          <Value color={"positivo"}>2880,00</Value>
+          <Value color={saldo >= 0 ? "positivo" : "negativo"}>{saldo}</Value>
         </article>
       </TransactionsContainer>
 
@@ -106,16 +126,4 @@ const Value = styled.div`
   font-size: 16px;
   text-align: right;
   color: ${(props) => (props.color === "positivo" ? "green" : "red")};
-`
-const ListItemContainer = styled.li`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-  color: #000000;
-  margin-right: 10px;
-  div span {
-    color: #c6c6c6;
-    margin-right: 10px;
-  }
 `

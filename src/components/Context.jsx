@@ -3,9 +3,9 @@ import { createContext, useState } from "react";
 const Context = createContext()
 
 function ContextProvider ({children}){
-    const [user, setUser] = useState()
+    const [token, setToken] = useState()
     return(
-        <Context.Provider value={{user, setUser}}>
+        <Context.Provider value={{token, setToken}}>
             {children}
         </Context.Provider>
     )

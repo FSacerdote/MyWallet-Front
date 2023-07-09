@@ -7,7 +7,7 @@ import { Context } from "../components/Context"
 
 export default function SignInPage() {
 
-  const {setUser} = useContext(Context)
+  const {setToken} = useContext(Context)
 
   const navigate = useNavigate()
 
@@ -18,7 +18,7 @@ export default function SignInPage() {
     event.preventDefault()
     axios.post(`${import.meta.env.VITE_API_URL}/sign-in`, {email, password})
       .then((resposta)=> {
-        setUser(resposta.data)
+        setToken(resposta.data)
         navigate('/home')
       })
       .catch((error)=>{
@@ -34,7 +34,7 @@ export default function SignInPage() {
       <form onSubmit={signin}>
         <MyWalletLogo />
         <input placeholder="E-mail" type="email" value={email} onChange={(event)=> setEmail(event.target.value)} onInvalid={()=>alert("Email inválido, por favor tente novamente")}required/>
-        <input placeholder="Senha" type="password" autocomplete="new-password" value={password} onChange={(event)=> setPassword(event.target.value)} required/>
+        <input placeholder="Senha" type="password" autoComplete ="new-password" value={password} onChange={(event)=> setPassword(event.target.value)} required/>
         <button type="submit">Entrar</button>
       </form>
 
