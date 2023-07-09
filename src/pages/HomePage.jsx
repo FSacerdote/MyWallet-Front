@@ -5,8 +5,11 @@ import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { Context } from "../components/Context"
 import ListItemContainer from "../components/ListItemContainer"
+import { useNavigate } from "react-router-dom"
 
 export default function HomePage() {
+
+  const navigate = useNavigate()
 
   const {token} = useContext(Context)
   const config = {
@@ -57,11 +60,11 @@ export default function HomePage() {
 
 
       <ButtonsContainer>
-        <button>
+        <button onClick={()=>navigate("/nova-transacao/entrada")}>
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </button>
-        <button>
+        <button onClick={()=>navigate("/nova-transacao/saida")}>
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </button>
