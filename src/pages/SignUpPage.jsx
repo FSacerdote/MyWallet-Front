@@ -1,8 +1,9 @@
 import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import MyWalletLogo from "../components/MyWalletLogo"
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import axios from "axios"
+import { Context } from "../components/Context"
 
 export default function SignUpPage() {
 
@@ -12,6 +13,13 @@ export default function SignUpPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [passwordConfirmation, setConfirmation] = useState("")
+  const {token} = useContext(Context)
+
+  useEffect(()=>{
+    if (token) {
+      navigate("/home")
+    }
+  }, [])
 
 
   function signup(event){

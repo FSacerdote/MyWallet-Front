@@ -11,7 +11,7 @@ export default function HomePage() {
 
   const navigate = useNavigate()
 
-  const {token} = useContext(Context)
+  const { token } = useContext(Context)
   const config = {
     headers: {
       Authorization: `Bearer ${token}`
@@ -22,21 +22,24 @@ export default function HomePage() {
   const [transactions, setTransactions] = useState([])
   let saldo = 0
 
-  useEffect(()=>{
+  useEffect(() => {
+    if (!token) {
+      navigate("/")
+    }
     axios.get(`${import.meta.env.VITE_API_URL}/transactions`, config)
-      .then((resposta)=>{
+      .then((resposta) => {
         setUserName(resposta.data.user.name)
         setTransactions(resposta.data.transactions.reverse())
       })
-      .catch((erro)=>{
+      .catch((erro) => {
         console.log(erro)
       })
   }, [])
 
-  transactions.forEach((transaction)=>{
-    if(transaction.type === "entrada"){
+  transactions.forEach((transaction) => {
+    if (transaction.type === "entrada") {
       saldo += Number(transaction.value)
-    }else{
+    } else {
       saldo -= Number(transaction.value)
     }
   })
@@ -50,7 +53,7 @@ export default function HomePage() {
 
       <TransactionsContainer>
         <ul>
-          {transactions.map((transaction)=><ListItemContainer key={transaction._id} day={transaction.date} description={transaction.description} value={transaction.value} type={transaction.type}/>)}
+          {transactions.map((transaction) => <ListItemContainer key={transaction._id} day={transaction.date} description={transaction.description} value={transaction.value} type={transaction.type} />)}
         </ul>
         <article>
           <strong>Saldo</strong>
@@ -60,11 +63,11 @@ export default function HomePage() {
 
 
       <ButtonsContainer>
-        <button onClick={()=>navigate("/nova-transacao/entrada")}>
+        <button onClick={() => navigate("/nova-transacao/entrada")}>
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </button>
-        <button onClick={()=>navigate("/nova-transacao/saida")}>
+        <button onClick={() => navigate("/nova-transacao/saida")}>
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </button>

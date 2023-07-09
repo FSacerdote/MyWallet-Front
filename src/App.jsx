@@ -8,18 +8,18 @@ import { ContextProvider } from "./components/Context"
 
 export default function App() {
   return (
-    <ContextProvider>
-      <PagesContainer>
+    <PagesContainer>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<SignInPage />} />
-            <Route path="/cadastro" element={<SignUpPage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/nova-transacao/:tipo" element={<TransactionsPage />} />
-          </Routes>
+          <ContextProvider>
+            <Routes>
+              <Route path="/" element={<SignInPage />} />
+              <Route path="/cadastro" element={<SignUpPage />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/nova-transacao/:tipo" element={<TransactionsPage />} />
+            </Routes>
+          </ContextProvider>
         </BrowserRouter>
       </PagesContainer>
-    </ContextProvider>
   )
 }
 

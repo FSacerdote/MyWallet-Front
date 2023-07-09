@@ -1,24 +1,31 @@
 import styled from "styled-components"
 import { Link, useNavigate } from "react-router-dom"
 import MyWalletLogo from "../components/MyWalletLogo"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { Context } from "../components/Context"
 
 export default function SignInPage() {
 
-  const {setToken} = useContext(Context)
+  const {setToken, token} = useContext(Context)
 
   const navigate = useNavigate()
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
+  useEffect(()=>{
+    if (token) {
+      navigate("/home")
+    }
+  })
+
   function signin(event){
     event.preventDefault()
     axios.post(`${import.meta.env.VITE_API_URL}/sign-in`, {email, password})
       .then((resposta)=> {
         setToken(resposta.data)
+        localStorage.setItem("token", resposta.data)
         navigate('/home')
       })
       .catch((error)=>{
