@@ -8,7 +8,7 @@ export default function TransactionsPage() {
 
   const navigate = useNavigate()
 
-  const {type} = useParams()
+  const {tipo} = useParams()
   const [value, setValue] = useState("")
   const [description, setDescription] = useState("")
 
@@ -27,7 +27,7 @@ export default function TransactionsPage() {
 
   function send(event){
     event.preventDefault()
-    axios.post(`${import.meta.env.VITE_API_URL}/transactions`, {value, description, type}, config)
+    axios.post(`${import.meta.env.VITE_API_URL}/transactions`, {value, description, type: tipo}, config)
       .then(()=>navigate("/home"))
       .catch((error)=>{
         if (error.response.status === 422) return alert("Os dados fornecidos estão em um formato inválido")
@@ -37,11 +37,11 @@ export default function TransactionsPage() {
   }
   return (
     <TransactionsContainer>
-      <h1>Nova {type}</h1>
+      <h1>Nova {tipo}</h1>
       <form onSubmit={send}>
         <input data-test="registry-amount-input" placeholder="Valor" type="text" value={value} onChange={(event)=>setValue(event.target.value)} required/>
         <input data-test="registry-name-input" placeholder="Descrição" type="text" value={description} onChange={(event)=>setDescription(event.target.value)} required/>
-        <button data-test="registry-save" type="submit">Salvar {type}</button>
+        <button data-test="registry-save" type="submit">Salvar {tipo}</button>
       </form>
     </TransactionsContainer>
   )
