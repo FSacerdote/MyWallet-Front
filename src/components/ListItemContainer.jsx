@@ -3,11 +3,11 @@ import styled from "styled-components"
 export default function ListItemContainer({description, value, type, day}){
     return(
         <Container>
-            <div>
+            <div data-test="registry-name">
               <span>{day}</span>
               <strong>{description}</strong>
             </div>
-            <Value color={type}>{value.replace(".",",")}</Value>
+            <Value data-test="registry-amount" color={type}>{value.replace(".",",")}</Value>
         </Container>
     )
 }

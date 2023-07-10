@@ -40,9 +40,9 @@ export default function SignInPage() {
     <SingInContainer>
       <form onSubmit={signin}>
         <MyWalletLogo />
-        <input placeholder="E-mail" type="email" value={email} onChange={(event)=> setEmail(event.target.value)} onInvalid={()=>alert("Email inválido, por favor tente novamente")}required/>
-        <input placeholder="Senha" type="password" autoComplete ="new-password" value={password} onChange={(event)=> setPassword(event.target.value)} required/>
-        <button type="submit">Entrar</button>
+        <input data-test="email" placeholder="E-mail" type="email" value={email} onChange={(event)=> setEmail(event.target.value)} onInvalid={()=>alert("Email inválido, por favor tente novamente")}required/>
+        <input data-test="password" placeholder="Senha" type="password" autoComplete ="new-password" value={password} onChange={(event)=> setPassword(event.target.value)} required/>
+        <button data-test="sign-in-submit" type="submit">Entrar</button>
       </form>
 
       <Link to={'/cadastro'}>

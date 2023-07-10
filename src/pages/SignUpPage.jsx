@@ -43,11 +43,11 @@ export default function SignUpPage() {
     <SingUpContainer>
       <form onSubmit={signup}>
         <MyWalletLogo />
-        <input placeholder="Nome" type="text" value={name} onChange={(event)=> setName(event.target.value)} required/>
-        <input placeholder="E-mail" type="email" value={email} onChange={(event)=> setEmail(event.target.value)} onInvalid={()=> alert("Email inválido, tente novamente")}required/>
-        <input placeholder="Senha" type="password" autoComplete="new-password" value={password} onChange={(event)=> setPassword(event.target.value)} required/>
-        <input placeholder="Confirme a senha" type="password" autoComplete="new-password" value={passwordConfirmation} onChange={(event)=> setConfirmation(event.target.value)} required/>
-        <button type="submit">Cadastrar</button>
+        <input data-test="name" placeholder="Nome" type="text" value={name} onChange={(event)=> setName(event.target.value)} required/>
+        <input data-test="email" placeholder="E-mail" type="email" value={email} onChange={(event)=> setEmail(event.target.value)} onInvalid={()=> alert("Email inválido, tente novamente")}required/>
+        <input data-test="password" placeholder="Senha" type="password" autoComplete="new-password" value={password} onChange={(event)=> setPassword(event.target.value)} required/>
+        <input data-test="conf-password" placeholder="Confirme a senha" type="password" autoComplete="new-password" value={passwordConfirmation} onChange={(event)=> setConfirmation(event.target.value)} required/>
+        <button data-test="sign-up-submit" type="submit">Cadastrar</button>
       </form>
 
       <Link to={"/"}>
