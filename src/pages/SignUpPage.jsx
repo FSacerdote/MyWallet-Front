@@ -15,12 +15,6 @@ export default function SignUpPage() {
   const [passwordConfirmation, setConfirmation] = useState("")
   const {token} = useContext(Context)
 
-  useEffect(()=>{
-    if (token) {
-      navigate("/home")
-    }
-  }, [])
-
 
   function signup(event){
     event.preventDefault()
