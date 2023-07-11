@@ -19,12 +19,6 @@ export default function TransactionsPage() {
     }
   }
 
-  useEffect(()=>{
-    if (!token) {
-      navigate("/")
-    }
-  }, [])
-
   function send(event){
     event.preventDefault()
     axios.post(`${import.meta.env.VITE_API_URL}/transactions`, {value: Number(value).toFixed(2), description, type: tipo}, config)
