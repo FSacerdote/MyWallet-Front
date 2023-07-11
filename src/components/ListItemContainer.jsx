@@ -3,9 +3,9 @@ import styled from "styled-components"
 export default function ListItemContainer({description, value, type, day}){
     return(
         <Container>
-            <div data-test="registry-name">
+            <div>
               <span>{day}</span>
-              <strong>{description}</strong>
+              <strong data-test="registry-name">{description}</strong>
             </div>
             <Value data-test="registry-amount" color={type}>{value.replace(".",",")}</Value>
         </Container>
