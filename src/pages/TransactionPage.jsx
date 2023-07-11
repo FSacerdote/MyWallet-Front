@@ -27,7 +27,7 @@ export default function TransactionsPage() {
 
   function send(event){
     event.preventDefault()
-    axios.post(`${import.meta.env.VITE_API_URL}/transactions`, {value, description, type: tipo}, config)
+    axios.post(`${import.meta.env.VITE_API_URL}/transactions`, {value: Number(value).toFixed(2), description, type: tipo}, config)
       .then(()=>navigate("/home"))
       .catch((error)=>{
         if (error.response.status === 422) return alert("Os dados fornecidos estão em um formato inválido")
@@ -39,8 +39,8 @@ export default function TransactionsPage() {
     <TransactionsContainer>
       <h1>Nova {tipo}</h1>
       <form onSubmit={send}>
-        <input data-test="registry-amount-input" placeholder="Valor" type="text" value={value} onChange={(event)=>setValue(event.target.value)} required/>
-        <input data-test="registry-name-input" placeholder="Descrição" type="text" value={description} onChange={(event)=>setDescription(event.target.value)} required/>
+        <input data-test="registry-amount-input" placeholder="Valor" type="text" onInvalid={()=>alert("Preencha todos os campos por favor")} value={value} onChange={(event)=>setValue(event.target.value)} required/>
+        <input data-test="registry-name-input" placeholder="Descrição" type="text" onInvalid={()=>alert("Preencha todos os campos por favor")} value={description} onChange={(event)=>setDescription(event.target.value)} required/>
         <button data-test="registry-save" type="submit">Salvar {tipo}</button>
       </form>
     </TransactionsContainer>

@@ -63,7 +63,7 @@ export default function HomePage() {
         </ul>
         <article>
           <strong>Saldo</strong>
-          <Value data-test="total-amount" color={saldo >= 0 ? "positivo" : "negativo"}>{saldo}</Value>
+          <Value data-test="total-amount" color={saldo >= 0 ? "positivo" : "negativo"}>{saldo.toFixed(2)}</Value>
         </article>
       </TransactionsContainer>
 
