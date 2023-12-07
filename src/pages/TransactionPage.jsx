@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { Context } from "../context/Context"
 import axios from "axios"
 import Swal from "sweetalert2"
+import { ThreeDots } from 'react-loader-spinner'
 
 export default function TransactionsPage() {
 
@@ -12,6 +13,7 @@ export default function TransactionsPage() {
   const {tipo} = useParams()
   const [value, setValue] = useState("")
   const [description, setDescription] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const {token} = useContext(Context)
   const config = {
@@ -22,9 +24,14 @@ export default function TransactionsPage() {
 
   function send(event){
     event.preventDefault()
+    setLoading(true)
     axios.post(`${import.meta.env.VITE_API_URL}/transactions`, {value: Number(value).toFixed(2), description, type: tipo}, config)
-      .then(()=>navigate("/home"))
+      .then(()=>{
+        setLoading(false)
+        navigate("/home")
+      })
       .catch((error)=>{
+        setLoading(false)
         if (error.response.status === 422) return fireSweetAlertError("Os dados fornecidos estão em um formato inválido")
         if (error.response.status === 401) return fireSweetAlertError("Erro de autorização, tente logar novamente")
         fireSweetAlertError("Erro ao computar a transação")
@@ -48,9 +55,24 @@ export default function TransactionsPage() {
     <TransactionsContainer>
       <h1>Nova {tipo}</h1>
       <form onSubmit={send} onInvalid={handleInvalidForm}>
-        <input data-test="registry-amount-input" placeholder="Valor" type="text" value={value} onChange={(event)=>setValue(event.target.value)} required/>
-        <input data-test="registry-name-input" placeholder="Descrição" type="text" value={description} onChange={(event)=>setDescription(event.target.value)} required/>
-        <button data-test="registry-save" type="submit">Salvar {tipo}</button>
+        <input disabled={loading} data-test="registry-amount-input" placeholder="Valor" type="text" value={value} onChange={(event)=>setValue(event.target.value)} required/>
+        <input disabled={loading} data-test="registry-name-input" placeholder="Descrição" type="text" value={description} onChange={(event)=>setDescription(event.target.value)} required/>
+        <button disabled={loading} data-test="registry-save" type="submit">
+          {
+            loading?
+            <ThreeDots
+            height="auto"
+            width="50"
+            radius="9"
+            color="white"
+            ariaLabel="loading"
+            wrapperStyle
+            wrapperClass
+            />
+            :
+            <>Salvar {tipo}</>
+          }
+        </button>
       </form>
     </TransactionsContainer>
   )
@@ -66,5 +88,10 @@ const TransactionsContainer = styled.main`
   h1 {
     align-self: flex-start;
     margin-bottom: 40px;
+  }
+  button{
+    height: 46px;
+    display: flex;
+    justify-content: center;
   }
 `

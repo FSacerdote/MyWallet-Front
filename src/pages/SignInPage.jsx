@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { Context } from "../context/Context"
 import Swal from 'sweetalert2'
+import { ThreeDots } from 'react-loader-spinner'
 
 export default function SignInPage() {
 
@@ -14,6 +15,7 @@ export default function SignInPage() {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
 
   useEffect(()=>{
     if (token) {
@@ -31,13 +33,18 @@ export default function SignInPage() {
 
   function signin(event){
     event.preventDefault()
+    setLoading(true)
     axios.post(`${import.meta.env.VITE_API_URL}/sign-in`, {email, password})
       .then((resposta)=> {
         setToken(resposta.data)
         localStorage.setItem("token", resposta.data)
+        setLoading(false)
         navigate('/home')
       })
       .catch((error)=>{
+        setLoading(false)
+        setEmail("")
+        setPassword("")
         if(error.response.status === 422) return fireSweetAlertError("Formato inválido dos dados, tente novamente")
         if(error.response.status === 404) return fireSweetAlertError("Não foi possível encontrar nenhuma conta com o email fornecido")
         if(error.response.status === 401) return fireSweetAlertError("Senha incorreta, por favor tente novamente")
@@ -54,9 +61,24 @@ export default function SignInPage() {
     <SingInContainer>
       <form onSubmit={signin} onInvalid={handleInvalidForm}>
         <MyWalletLogo />
-        <input data-test="email" placeholder="E-mail" type="email" value={email} onChange={(event)=> setEmail(event.target.value)} required/>
-        <input data-test="password" placeholder="Senha" type="password" autoComplete ="new-password" value={password} onChange={(event)=> setPassword(event.target.value)} required/>
-        <button data-test="sign-in-submit" type="submit">Entrar</button>
+        <input disabled={loading} data-test="email" placeholder="E-mail" type="email" value={email} onChange={(event)=> setEmail(event.target.value)} required/>
+        <input disabled={loading} data-test="password" placeholder="Senha" type="password" autoComplete ="new-password" value={password} onChange={(event)=> setPassword(event.target.value)} required/>
+        <button disabled={loading} data-test="sign-in-submit" type="submit">
+          {
+            loading?
+            <ThreeDots
+            height="auto"
+            width="50"
+            radius="9"
+            color="white"
+            ariaLabel="loading"
+            wrapperStyle
+            wrapperClass
+            />
+            :
+            <>Entrar</>
+          }
+        </button>
       </form>
 
       <Link to={'/cadastro'}>
@@ -71,4 +93,9 @@ const SingInContainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  button{
+    height: 46px;
+    display: flex;
+    justify-content: center;
+  }
 `

@@ -17,6 +17,14 @@ const GlobalStyle = createGlobalStyle`
         cursor: pointer;
         width: 100%;
         padding: 12px;
+        &:hover{
+            cursor: pointer;
+            filter: brightness(0.95);
+        }
+        &:disabled{
+            filter: brightness(0.8);
+            cursor: auto;
+        }
     }
     h1 {
         font-weight: 700;
@@ -31,9 +39,13 @@ const GlobalStyle = createGlobalStyle`
         border: 1px solid #ccc;
         padding: 15px;
         margin: 1px;
-        :focus {
+        &:focus {
             border: 2px solid #ffb6b6;
             margin: 0px;
+        }
+        &:disabled{
+            background-color: white;
+            filter: brightness(0.8);
         }
     }
     form {
