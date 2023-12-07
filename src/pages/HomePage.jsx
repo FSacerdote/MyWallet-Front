@@ -86,7 +86,8 @@ export default function HomePage() {
 const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 50px);
+  height: 95%;
+  width: 90%;
 `
 const Header = styled.header`
   display: flex;
