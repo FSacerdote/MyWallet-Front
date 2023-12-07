@@ -53,6 +53,15 @@ const GlobalStyle = createGlobalStyle`
         text-decoration: none;
         padding-top: 30px;
     }
+    .swal2-icon{
+        margin-top: 20px;
+        justify-self: center;
+        border: 0.25em solid rgba(0,0,0,0);
+    }
+    .swal2-container{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
 `
 
 export default GlobalStyle

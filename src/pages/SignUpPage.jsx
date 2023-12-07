@@ -4,6 +4,7 @@ import MyWalletLogo from "../components/MyWalletLogo"
 import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { Context } from "../context/Context"
+import Swal from "sweetalert2"
 
 export default function SignUpPage() {
 
@@ -14,6 +15,14 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("")
   const [passwordConfirmation, setConfirmation] = useState("")
   const {token} = useContext(Context)
+
+  function fireSweetAlertError(text){
+    return Swal.fire({
+      title: 'Error!',
+      text,
+      icon: 'error'
+    })
+  }
 
 
   function signup(event){
@@ -26,19 +35,24 @@ export default function SignUpPage() {
       axios.post(`${import.meta.env.VITE_API_URL}/sign-up`, {name, email, password})
         .then(()=> navigate("/"))
         .catch((error)=>{
-          if(error.response.status === 409) return alert("Este email já é cadastrado")
-          if(error.response.status === 422) return alert("Dados inválidos, por favor tente novamente")
-          alert("Erro ao realizar o cadastro")
+          if(error.response.status === 409) return fireSweetAlertError("Este email já é cadastrado")
+          if(error.response.status === 422) return fireSweetAlertError("Dados inválidos, por favor tente novamente")
+          fireSweetAlertError("Erro ao realizar o cadastro")
         })
     }
   }
 
+  function handleInvalidForm(event){
+    event.preventDefault()
+    fireSweetAlertError("Preencha todos os campos corretamente, por favor!")
+  }
+
   return (
     <SingUpContainer>
-      <form onSubmit={signup}>
+      <form onSubmit={signup} onInvalid={handleInvalidForm}>
         <MyWalletLogo />
         <input data-test="name" placeholder="Nome" type="text" value={name} onChange={(event)=> setName(event.target.value)} required/>
-        <input data-test="email" placeholder="E-mail" type="email" value={email} onChange={(event)=> setEmail(event.target.value)} onInvalid={()=> alert("Email inválido, tente novamente")}required/>
+        <input data-test="email" placeholder="E-mail" type="email" value={email} onChange={(event)=> setEmail(event.target.value)} required/>
         <input data-test="password" placeholder="Senha" type="password" autoComplete="new-password" value={password} onChange={(event)=> setPassword(event.target.value)} required/>
         <input data-test="conf-password" placeholder="Confirme a senha" type="password" autoComplete="new-password" value={passwordConfirmation} onChange={(event)=> setConfirmation(event.target.value)} required/>
         <button data-test="sign-up-submit" type="submit">Cadastrar</button>

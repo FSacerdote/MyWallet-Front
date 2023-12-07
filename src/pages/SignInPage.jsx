@@ -4,6 +4,7 @@ import MyWalletLogo from "../components/MyWalletLogo"
 import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { Context } from "../context/Context"
+import Swal from 'sweetalert2'
 
 export default function SignInPage() {
 
@@ -20,6 +21,14 @@ export default function SignInPage() {
     }
   })
 
+  function fireSweetAlertError(text){
+    return Swal.fire({
+      title: 'Error!',
+      text,
+      icon: 'error'
+    })
+  }
+
   function signin(event){
     event.preventDefault()
     axios.post(`${import.meta.env.VITE_API_URL}/sign-in`, {email, password})
@@ -29,18 +38,23 @@ export default function SignInPage() {
         navigate('/home')
       })
       .catch((error)=>{
-        if(error.response.status === 422) return alert("Formato inválido dos dados, tente novamente")
-        if(error.response.status === 404) return alert("Não foi possível encontrar nenhuma conta com o email fornecido")
-        if(error.response.status === 401) return alert("Senha incorreta, por favor tente novamente")
-        alert("Erro ao realizar novamete, tente novamente mais tarde")
+        if(error.response.status === 422) return fireSweetAlertError("Formato inválido dos dados, tente novamente")
+        if(error.response.status === 404) return fireSweetAlertError("Não foi possível encontrar nenhuma conta com o email fornecido")
+        if(error.response.status === 401) return fireSweetAlertError("Senha incorreta, por favor tente novamente")
+        fireSweetAlertError("Erro ao realizar a requisição, tente novamente mais tarde")
       })
+  }
+
+  function handleInvalidForm(event){
+    event.preventDefault()
+    return fireSweetAlertError("Por favor preencha todos os campos corretamente!")
   }
 
   return (
     <SingInContainer>
-      <form onSubmit={signin}>
+      <form onSubmit={signin} onInvalid={handleInvalidForm}>
         <MyWalletLogo />
-        <input data-test="email" placeholder="E-mail" type="email" value={email} onChange={(event)=> setEmail(event.target.value)} onInvalid={()=>alert("Email inválido, por favor tente novamente")}required/>
+        <input data-test="email" placeholder="E-mail" type="email" value={email} onChange={(event)=> setEmail(event.target.value)} required/>
         <input data-test="password" placeholder="Senha" type="password" autoComplete ="new-password" value={password} onChange={(event)=> setPassword(event.target.value)} required/>
         <button data-test="sign-in-submit" type="submit">Entrar</button>
       </form>

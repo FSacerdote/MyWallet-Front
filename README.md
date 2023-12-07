@@ -22,6 +22,8 @@ Para este projeto, foram utilizadas:
 - Styled Components;
 - React Router;
 - Axios;
+- Sweet Alerts;
+
 
 # Como rodar em desenvolvimento
 Para executar este projeto em desenvolvimento, é necessário seguir os passos abaixo:
