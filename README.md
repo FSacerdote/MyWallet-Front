@@ -2,7 +2,7 @@
 Aplicação Web front-end desenvolvida durante a formação do BootCamp da Driven. Nesta aplicação, é possível criar usuários, gerenciar finanças através da criação de entradas e saídas, verificar o saldo e as datas de cada transação.
 
 
-<div style="text-align: center;">
+<div align="center">
     <img width="180" src="./public/loginReadMe.png">
     <img width="180" src="./public/homePageReadMe.png">
     <img width="180" src="./public/entradaReadMe.png">
@@ -30,7 +30,7 @@ Para executar este projeto em desenvolvimento, é necessário seguir os passos a
 - Baixar as dependências necessárias com o comando: `npm install`;
 - Em seguida, criar o arquivo `.env` com base no `.env.example`;
 - Este arquivo `.env` é composto pelas seguintes propriedades:
-```JSON
+```
   VITE_API_URL= // insira aqui a url do back-end da aplicação
 ```
 - A propriedade `VITE_API_URL` é a url base para as requisições do back-end;
