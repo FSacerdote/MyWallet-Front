@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
-import { Context } from "../components/Context"
+import { Context } from "../context/Context"
 import axios from "axios"
 
 export default function TransactionsPage() {

@@ -3,7 +3,7 @@ import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import { useContext, useEffect, useState } from "react"
 import axios from "axios"
-import { Context } from "../components/Context"
+import { Context } from "../context/Context"
 import ListItemContainer from "../components/ListItemContainer"
 import { useNavigate } from "react-router-dom"
 

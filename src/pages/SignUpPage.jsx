@@ -3,7 +3,7 @@ import styled from "styled-components"
 import MyWalletLogo from "../components/MyWalletLogo"
 import { useContext, useEffect, useState } from "react"
 import axios from "axios"
-import { Context } from "../components/Context"
+import { Context } from "../context/Context"
 
 export default function SignUpPage() {
 

@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage"
 import SignInPage from "./pages/SignInPage"
 import SignUpPage from "./pages/SignUpPage"
 import TransactionsPage from "./pages/TransactionPage"
-import { ContextProvider } from "./components/Context"
+import { ContextProvider } from "./context/Context"
 
 export default function App() {
   return (
