@@ -6,6 +6,7 @@ import axios from "axios"
 import { Context } from "../context/Context"
 import ListItemContainer from "../components/ListItemContainer"
 import { useNavigate } from "react-router-dom"
+import { TailSpin } from 'react-loader-spinner'
 
 export default function HomePage() {
 
@@ -20,18 +21,23 @@ export default function HomePage() {
 
   const [username, setUserName] = useState("")
   const [transactions, setTransactions] = useState([])
+  const [loading, setLoading] = useState(false)
+
   let saldo = 0
 
   useEffect(() => {
+    setLoading(true)
     if (!token) {
       navigate("/")
     }
     axios.get(`${import.meta.env.VITE_API_URL}/transactions`, config)
       .then((resposta) => {
+        setLoading(false)
         setUserName(resposta.data.user.name)
         setTransactions(resposta.data.transactions.reverse())
       })
       .catch((erro) => {
+        setLoading(false)
         console.log(erro)
       })
   }, [])
@@ -53,27 +59,43 @@ export default function HomePage() {
   return (
     <HomeContainer>
       <Header>
-        <h1 data-test="user-name">Olá, {username}</h1>
+        <h1 data-test="user-name">
+          {
+          loading?
+          "Carregando..."
+          :
+          `Olá, ${username}`
+          }
+        </h1>
         <BiExit data-test="logout" onClick={logout}/>
       </Header>
 
       <TransactionsContainer>
-        <ul>
-          {transactions.map((transaction) => <ListItemContainer key={transaction._id} day={transaction.date} description={transaction.description} value={transaction.value} type={transaction.type} />)}
-        </ul>
-        <article>
-          <strong>Saldo</strong>
-          <Value data-test="total-amount" color={saldo >= 0 ? "positivo" : "negativo"}>{saldo.toFixed(2)}</Value>
-        </article>
+        {
+        loading?
+        <Loading>
+            <TailSpin width="100" height="100" color="#8c11be"/>
+        </Loading>
+        :
+        <>
+          <ul>
+            {transactions.map((transaction) => <ListItemContainer key={transaction._id} day={transaction.date} description={transaction.description} value={transaction.value} type={transaction.type} />)}
+          </ul>
+          <article>
+            <strong>Saldo</strong>
+            <Value data-test="total-amount" color={saldo >= 0 ? "positivo" : "negativo"}>{saldo.toFixed(2)}</Value>
+          </article>
+        </>
+        }
       </TransactionsContainer>
 
 
       <ButtonsContainer>
-        <button data-test="new-income" onClick={() => navigate("/nova-transacao/entrada")}>
+        <button disabled={loading} data-test="new-income" onClick={() => navigate("/nova-transacao/entrada")}>
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </button>
-        <button data-test="new-expense" onClick={() => navigate("/nova-transacao/saida")}>
+        <button disabled={loading} data-test="new-expense" onClick={() => navigate("/nova-transacao/saida")}>
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </button>
@@ -139,4 +161,11 @@ const Value = styled.div`
   font-size: 16px;
   text-align: right;
   color: ${(props) => (props.color === "positivo" ? "green" : "red")};
+`
+
+const Loading = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
 `
