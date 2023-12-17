@@ -35,9 +35,9 @@ export default function SignInPage() {
     event.preventDefault()
     setLoading(true)
     axios.post(`${import.meta.env.VITE_API_URL}/sign-in`, {email, password})
-      .then((resposta)=> {
-        setToken(resposta.data)
-        localStorage.setItem("token", resposta.data)
+      .then((response)=> {
+        setToken(response.data)
+        localStorage.setItem("token", response.data)
         setLoading(false)
         navigate('/home')
       })

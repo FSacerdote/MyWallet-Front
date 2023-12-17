@@ -31,14 +31,14 @@ export default function HomePage() {
       navigate("/")
     }
     axios.get(`${import.meta.env.VITE_API_URL}/transactions`, config)
-      .then((resposta) => {
+      .then((response) => {
         setLoading(false)
-        setUserName(resposta.data.user.name)
-        setTransactions(resposta.data.transactions.reverse())
+        setUserName(response.data.user.name)
+        setTransactions(response.data.transactions.reverse())
       })
-      .catch((erro) => {
+      .catch((error) => {
         setLoading(false)
-        console.log(erro)
+        console.log(error)
       })
   }, [])
 

@@ -10,7 +10,7 @@ export default function TransactionsPage() {
 
   const navigate = useNavigate()
 
-  const {tipo} = useParams()
+  const {type} = useParams()
   const [value, setValue] = useState("")
   const [description, setDescription] = useState("")
   const [loading, setLoading] = useState(false)
@@ -25,7 +25,7 @@ export default function TransactionsPage() {
   function send(event){
     event.preventDefault()
     setLoading(true)
-    axios.post(`${import.meta.env.VITE_API_URL}/transactions`, {value: Number(value).toFixed(2), description, type: tipo}, config)
+    axios.post(`${import.meta.env.VITE_API_URL}/transactions`, {value: Number(value).toFixed(2), description, type}, config)
       .then(()=>{
         setLoading(false)
         navigate("/home")
@@ -53,7 +53,7 @@ export default function TransactionsPage() {
 
   return (
     <TransactionsContainer>
-      <h1>Nova {tipo}</h1>
+      <h1>Nova {type}</h1>
       <form onSubmit={send} onInvalid={handleInvalidForm}>
         <input disabled={loading} data-test="registry-amount-input" placeholder="Valor" type="text" value={value} onChange={(event)=>setValue(event.target.value)} required/>
         <input disabled={loading} data-test="registry-name-input" placeholder="Descrição" type="text" value={description} onChange={(event)=>setDescription(event.target.value)} required/>
@@ -70,7 +70,7 @@ export default function TransactionsPage() {
             wrapperClass
             />
             :
-            <>Salvar {tipo}</>
+            <>Salvar {type}</>
           }
         </button>
       </form>

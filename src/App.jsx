@@ -15,7 +15,7 @@ export default function App() {
               <Route path="/" element={<SignInPage />} />
               <Route path="/cadastro" element={<SignUpPage />} />
               <Route path="/home" element={<HomePage />} />
-              <Route path="/nova-transacao/:tipo" element={<TransactionsPage />} />
+              <Route path="/nova-transacao/:type" element={<TransactionsPage />} />
             </Routes>
           </ContextProvider>
         </BrowserRouter>
